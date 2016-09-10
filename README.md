@@ -1,1 +1,1 @@
-# CNNnews
+# CNNnews Spider
