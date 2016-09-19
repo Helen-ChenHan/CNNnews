@@ -17,8 +17,23 @@ class MySpider(CrawlSpider):
         hxs = HtmlXPathSelector(response)
         items = []
         item = CNNItem()
-        item["title"] = hxs.select('//title/text()').extract()
+        item["title"] = hxs.select('//h1[@class="pg-headline"]/text()').extract()
         item["article"] = hxs.select('//div[@class="zn-body__paragraph"]/text()').extract()
         item["link"] = response.url
         items.append(item)
+        splitUrl = response.url.split('/')
+        year = splitUrl[3]
+        month = splitUrl[4]
+        day = splitUrl[5]
+        name = item["title"][0]
+        article = "\n".join(item['article'])
+        save_path = os.path.join('data',year+"-"+month+"-"+day,name+".txt")
+        if not os.path.exists(os.path.dirname(save_path)):
+            try:
+                os.makedirs(os.path.dirname(save_path))
+            except OSError as exc: # Guard against race condition
+                if exc.errno != errno.EEXIST:
+                    raise
+        with open(save_path, 'a+') as f:
+            f.write('name: {0} \nlink: {1}\n\n {2}'.format(name, item['link'], article.encode('utf8')))
         return(items)
