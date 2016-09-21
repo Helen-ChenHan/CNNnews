@@ -7,7 +7,17 @@ from craigslist_sample.items import CNNItem
 class MySpider(CrawlSpider):
     name = "cnn"
     allowed_domains = ["cnn.com"]
-    start_urls = ["http://www.cnn.com/"]
+    start_urls = [
+        "http://www.cnn.com/",
+        "http://www.cnn.com/health",
+        "http://www.cnn.com/money",
+        "http://www.cnn.com/opinion",
+        "http://www.cnn.com/world",
+        "http://www.cnn.com/politics",
+        "http://www.cnn.com/style",
+        "http://www.cnn.com/travel",
+        "http://www.cnn.com/sports"
+    ]
 
     rules = (
         Rule(SgmlLinkExtractor(allow=('http://www.cnn.com/\d{4}\/\d{2}\/\d{2}\/.*\/.*\/')), callback="parse_items", follow= True),
