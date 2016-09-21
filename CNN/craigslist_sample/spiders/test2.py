@@ -25,7 +25,8 @@ class MySpider(CrawlSpider):
         year = splitUrl[3]
         month = splitUrl[4]
         day = splitUrl[5]
-        name = item["title"][0]
+        name1 = item["title"][0]
+        name = "".join(re.findall("[a-zA-Z]+", name1))
         article = "\n".join(item['article'])
         save_path = os.path.join('data',year+"-"+month+"-"+day,name+".txt")
         if not os.path.exists(os.path.dirname(save_path)):
